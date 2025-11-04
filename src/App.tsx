@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { Navigation } from "./components/Navigation";
 import { BoardPage } from "./pages/BoardPage";
 import { IssueDetailPage } from "./pages/IssueDetailPage";
@@ -19,6 +20,7 @@ export const App = () => {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/board" />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 };
