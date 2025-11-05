@@ -3,6 +3,11 @@ body {
   margin: 0;
 }
 
+h1 {
+  padding: 0;
+  margin: 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -29,4 +34,22 @@ body {
   margin-bottom: 0.75rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: grab;
+}
+
+.page-header {
+  margin-bottom: 1.25rem;
+}
+
+.page-header__header {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search {
+  border: solid thin gray;
+  padding: 0.438rem;
+  border-radius: 7px;
+  width: 100%;
 }

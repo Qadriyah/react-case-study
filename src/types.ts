@@ -25,7 +25,7 @@ export type UpdateIssueDto = {
   rank?: number;
 };
 
-export type Filters = {
+export type FilterType = {
   assignee?: string;
   severity?: number;
 };

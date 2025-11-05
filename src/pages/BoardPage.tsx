@@ -1,18 +1,12 @@
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-} from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import React from "react";
-import IssueCard from "../components/IssueCard";
-import IssueColumn from "../components/IssueColumn";
+import Board from "../components/Board";
+import PageHeader from "../components/PageHeader";
+import { useFilteredIssues } from "../hooks/useFilteredIssues";
 import { useIssuesStore } from "../store/useIssuesStore";
 import { Issue, IssueStatus } from "../types";
 
 export const BoardPage = () => {
-  const statuses = ["Backlog", "In Progress", "Done"];
-  const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
   const {
     fetchIssues,
     issues,
@@ -23,11 +17,16 @@ export const BoardPage = () => {
     lastUpdatedIssue,
     undoUpdateIssue,
   } = useIssuesStore();
+  const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
+  const [search, setSearch] = React.useState("");
+
+  const filteredIssues = useFilteredIssues(issues, {}, search);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (over && active.id !== over?.id) {
-      updateIssue(String(active.id), {
+    const activeIds = (active.id as string).split("-");
+    if (over && activeIds[1] !== over?.id) {
+      updateIssue(String(activeIds[0]), {
         status: over.id as IssueStatus,
       });
     }
@@ -36,9 +35,9 @@ export const BoardPage = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-    const { id } = active;
+    const id = (active.id as string).split("-")[0];
 
-    const issue = issues.find((issue) => issue.id === id);
+    const issue = filteredIssues.find((issue) => issue.id === id);
     if (issue) {
       setActiveIssue(issue);
     }
@@ -49,24 +48,21 @@ export const BoardPage = () => {
   }, [fetchIssues]);
 
   return (
-    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-      <div style={{ padding: "1rem" }}>
-        <div className="grid">
-          {statuses.map((status) => (
-            <IssueColumn
-              key={status}
-              issues={issues}
-              status={status}
-              counter={counter}
-              undoUpdateIssue={undoUpdateIssue}
-              lastUpdatedIssue={lastUpdatedIssue}
-            />
-          ))}
-          <DragOverlay>
-            {activeIssue ? <IssueCard issue={activeIssue} /> : null}
-          </DragOverlay>
-        </div>
-      </div>
-    </DndContext>
+    <main style={{ padding: "1rem" }}>
+      <PageHeader
+        search={search}
+        lastSyncedAt={lastSyncedAt}
+        onSearch={setSearch}
+      />
+      <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+        <Board
+          issues={filteredIssues}
+          activeIssue={activeIssue}
+          counter={counter}
+          lastUpdatedIssue={lastUpdatedIssue}
+          undoUpdateIssue={undoUpdateIssue}
+        />
+      </DndContext>
+    </main>
   );
 };

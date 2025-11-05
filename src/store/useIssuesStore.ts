@@ -119,6 +119,6 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       counter: 0,
     });
 
-    notify("Undo successful, reverted the changes", { type: "info" });
+    notify("Changes reverted successfully", { type: "info" });
   },
 }));

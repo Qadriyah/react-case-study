@@ -4,7 +4,7 @@ import { Issue, LastUpdatedIssueType } from "../types";
 import IssueCard from "./IssueCard";
 
 type IssueColumnProps = {
-  status: string;
+  title: string;
   issues: Issue[];
   counter: number;
   lastUpdatedIssue: LastUpdatedIssueType | null;
@@ -12,13 +12,13 @@ type IssueColumnProps = {
 };
 
 const IssueColumn: React.FC<IssueColumnProps> = ({
-  status,
+  title,
   issues,
   counter,
   lastUpdatedIssue,
   undoUpdateIssue,
 }) => {
-  const { setNodeRef, isOver } = useDroppable({ id: status });
+  const { setNodeRef, isOver } = useDroppable({ id: title });
   const style = {
     backgroundColor: isOver ? "lightblue" : "lightgray",
     minHeight: "100px",
@@ -28,19 +28,17 @@ const IssueColumn: React.FC<IssueColumnProps> = ({
   return (
     <div className="column" ref={setNodeRef} style={style}>
       <div className="column-header">
-        <h3>{status}</h3>
+        <h3>{title}</h3>
       </div>
-      {issues
-        .filter((issue) => issue.status === status)
-        .map((issue) => (
-          <IssueCard
-            key={issue.id}
-            issue={issue}
-            counter={counter}
-            lastUpdatedIssue={lastUpdatedIssue}
-            undoUpdateIssue={undoUpdateIssue}
-          />
-        ))}
+      {issues.map((issue) => (
+        <IssueCard
+          key={issue.id}
+          issue={issue}
+          counter={counter}
+          lastUpdatedIssue={lastUpdatedIssue}
+          undoUpdateIssue={undoUpdateIssue}
+        />
+      ))}
     </div>
   );
 };
