@@ -19,6 +19,7 @@ type IssueState = {
   lastUpdatedIssue: LastUpdatedIssueType | null;
   fetchIssues: () => Promise<void>;
   updateIssue: (id: string, status: IssueStatus) => void;
+  undoUpdateIssue: () => void;
 };
 
 export const useIssuesStore = create<IssueState>((set, get) => ({
@@ -76,16 +77,30 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       }
     }, 5000);
 
-    set((state) => {
-      if (state.lastUpdatedIssue) {
-        return {
-          lastUpdatedIssue: {
+    set((state) => ({
+      lastUpdatedIssue: state.lastUpdatedIssue
+        ? {
             ...state.lastUpdatedIssue,
             timerId,
-          },
-        };
-      }
-      return state;
+          }
+        : null,
+    }));
+  },
+  undoUpdateIssue: () => {
+    const lastUpdated = get().lastUpdatedIssue;
+    if (!lastUpdated) return;
+
+    if (lastUpdated.timerId) {
+      clearTimeout(lastUpdated.timerId);
+    }
+
+    set({
+      issues: get().issues.map((issue) =>
+        issue.id === lastUpdated.id && lastUpdated.issue
+          ? lastUpdated.issue
+          : issue
+      ),
+      lastUpdatedIssue: null,
     });
   },
 }));
