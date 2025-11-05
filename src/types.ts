@@ -12,3 +12,20 @@ export interface Issue {
   tags: string[];
   rank?: number;
 }
+
+export type LastUpdatedIssueType = {
+  id: string;
+  issue: Issue | null;
+  timerId: ReturnType<typeof setTimeout> | null;
+};
+
+export type UpdateIssueDto = {
+  status?: IssueStatus;
+  priority?: IssuePriority;
+  rank?: number;
+};
+
+export type Filters = {
+  assignee?: string;
+  severity?: number;
+};

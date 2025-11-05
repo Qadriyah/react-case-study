@@ -1,3 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, ToastOptions } from "react-toastify";
 
-export const notify = (message: string) => toast(message);
+export const notify = (message: string, options?: ToastOptions) =>
+  toast(message, options);
