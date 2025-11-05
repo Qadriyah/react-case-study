@@ -7,10 +7,10 @@ export const BoardPage = () => {
     issues,
     isLoading,
     lastSyncedAt,
-    moveIssue,
-    lastChangedIssue,
+    updateIssue,
+    lastUpdatedIssue,
   } = useIssuesStore();
-  console.log(issues, ">>>>>", lastChangedIssue);
+  console.log(issues, ">>>>>", lastUpdatedIssue);
 
   React.useEffect(() => {
     fetchIssues();
@@ -19,7 +19,9 @@ export const BoardPage = () => {
   return (
     <div style={{ padding: "1rem" }}>
       <div>TODO: Implement Board View</div>
-      <button onClick={() => moveIssue("1", "In Progress")}>Move issue</button>
+      <button onClick={() => updateIssue("1", "In Progress")}>
+        Move issue
+      </button>
     </div>
   );
 };
