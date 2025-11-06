@@ -4,7 +4,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h1 {
+h1,
+h4 {
   padding: 0;
   margin: 0;
 }
@@ -19,12 +20,35 @@ button {
   gap: 1.25rem;
 }
 
+.flex {
+  display: flex;
+  gap: 10px;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.border-none {
+  border: none;
+}
+
+.btn {
+  color: #000;
+  rotate: 90deg;
+}
+
 .column {
-  background-color: #eee;
+  background-color: rgb(238, 238, 238);
   padding: 0.75rem;
   border-radius: 0.5rem;
-  max-height: calc(100vh - 7.5rem);
+  max-height: calc(100vh - 13.75rem);
   overflow-y: scroll;
+  border: solid 2px rgb(238, 238, 238);
 }
 
 .column-header {
@@ -37,8 +61,12 @@ button {
   padding: 0.75rem;
   border-radius: 0.5rem;
   margin-bottom: 0.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: grab;
+  border: solid 2px rgb(238, 238, 238);
+  cursor: pointer;
+}
+
+.issue-card:hover {
+  border: solid 2px rgba(9, 131, 238);
 }
 
 .page-header {
@@ -62,4 +90,33 @@ button {
   padding: 0.438rem;
   border-radius: 7px;
   width: 100%;
+}
+
+.tag {
+  border: solid thin rgba(0, 0, 0, 0.3);
+  padding: 2px 5px;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.priority {
+  border: solid thin;
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
+.priority-high {
+  background-color: rgb(255, 0, 0, 0.2);
+  color: rgb(255, 0, 0);
+  border-color: rgb(255, 0, 0);
+}
+.priority-medium {
+  background-color: rgb(255, 165, 0, 0.2);
+  color: rgb(255, 165, 0);
+  border-color: rgb(255, 165, 0);
+}
+.priority-low {
+  background-color: rgb(0, 0, 255, 0.2);
+  color: rgb(0, 0, 255);
+  border-color: rgb(0, 0, 255);
 }

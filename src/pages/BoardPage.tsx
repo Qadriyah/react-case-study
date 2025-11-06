@@ -18,11 +18,11 @@ export const BoardPage = () => {
     lastUpdatedIssue,
     undoUpdateIssue,
   } = useIssuesStore();
+  usePolling(() => fetchIssues());
   const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
   const [search, setSearch] = React.useState("");
   const [filters, setFilters] = React.useState<FilterType>({});
 
-  usePolling(() => fetchIssues());
   const filteredIssues = useFilteredIssues(issues, filters, search);
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -45,10 +45,6 @@ export const BoardPage = () => {
       setActiveIssue(issue);
     }
   };
-
-  React.useEffect(() => {
-    fetchIssues();
-  }, [fetchIssues]);
 
   return (
     <main style={{ padding: "1rem" }}>

@@ -63,7 +63,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       const current = get().counter || 0;
       if (current <= 0) {
         clearInterval(intervalId);
-        set({ counter: 5 });
+        set({ counter: 0 });
       } else {
         set({ counter: current - 1 });
       }
@@ -73,7 +73,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       let message = "Issue has been updated successfully";
       let messageType: "success" | "error" = "success";
       clearInterval(intervalId);
-      set({ counter: 5 });
+      set({ counter: 0 });
 
       try {
         await mockUpdateIssue(id, dto);
