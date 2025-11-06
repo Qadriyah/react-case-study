@@ -3,6 +3,7 @@ import React from "react";
 import Board from "../components/Board";
 import PageHeader from "../components/PageHeader";
 import { useFilteredIssues } from "../hooks/useFilteredIssues";
+import { usePolling } from "../hooks/usePolling";
 import { useIssuesStore } from "../store/useIssuesStore";
 import { FilterType, Issue, IssueStatus } from "../types";
 
@@ -21,6 +22,7 @@ export const BoardPage = () => {
   const [search, setSearch] = React.useState("");
   const [filters, setFilters] = React.useState<FilterType>({});
 
+  usePolling(() => fetchIssues());
   const filteredIssues = useFilteredIssues(issues, filters, search);
 
   const handleDragEnd = (event: DragEndEvent) => {

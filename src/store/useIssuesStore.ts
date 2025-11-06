@@ -21,7 +21,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
   issues: [],
   isLoading: false,
   lastSyncedAt: null,
-  counter: 0,
+  counter: 5,
   lastUpdatedIssue: null,
   fetchIssues: async () => {
     set({ isLoading: true });
@@ -63,7 +63,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       const current = get().counter || 0;
       if (current <= 0) {
         clearInterval(intervalId);
-        set({ counter: 0 });
+        set({ counter: 5 });
       } else {
         set({ counter: current - 1 });
       }
@@ -73,13 +73,13 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       let message = "Issue has been updated successfully";
       let messageType: "success" | "error" = "success";
       clearInterval(intervalId);
-      set({ counter: 0 });
+      set({ counter: 5 });
 
       try {
         await mockUpdateIssue(id, dto);
         set({ lastUpdatedIssue: null });
       } catch (err) {
-        message = "Failed to move issue. Reverting changes.";
+        message = "Failed to update issue. Reverting changes.";
         messageType = "error";
         set({
           issues: get().issues.map((issue) =>
@@ -116,7 +116,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
           : issue
       ),
       lastUpdatedIssue: null,
-      counter: 0,
+      counter: 5,
     });
 
     notify("Changes reverted successfully", { type: "info" });

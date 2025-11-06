@@ -29,7 +29,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       </div>
       <div className="header">
         <p>
-          {`Last synced: ${dayjs(lastSyncedAt).format("DD MMM, YYYY hh:mm A")}`}
+          {`Last synced: ${dayjs(lastSyncedAt).format(
+            "DD MMM, YYYY hh:mm:ss A"
+          )}`}
         </p>
         <FilterPanel filters={filters} onSetFilter={onSetFilter} />
       </div>
