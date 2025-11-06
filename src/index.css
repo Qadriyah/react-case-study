@@ -38,16 +38,21 @@ h1 {
 
 .page-header {
   margin-bottom: 1.25rem;
+
+  .header {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filters {
+    display: flex;
+    gap: 10px;
+  }
 }
 
-.page-header__header {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.search {
+.input {
   border: solid thin gray;
   padding: 0.438rem;
   border-radius: 7px;

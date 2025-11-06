@@ -26,7 +26,7 @@ export function useFilteredIssues(
       .sort((a, b) => {
         const scoreDiff = computePriorityScore(b) - computePriorityScore(a);
         if (scoreDiff !== 0) return scoreDiff;
-        return dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix();
+        return dayjs(b.createdAt).diff(dayjs(a.createdAt));
       });
   }, [filters.assignee, filters.severity, issues, search]);
 

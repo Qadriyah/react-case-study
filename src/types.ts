@@ -27,5 +27,5 @@ export type UpdateIssueDto = {
 
 export type FilterType = {
   assignee?: string;
-  severity?: number;
+  severity?: number | string;
 };

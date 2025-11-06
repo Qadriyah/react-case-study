@@ -19,6 +19,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `${issue.id}-${issue.status}`,
+    disabled: currentUser.role !== UserRoles.ADMIN,
   });
   const style = transform
     ? {

@@ -4,7 +4,7 @@ import Board from "../components/Board";
 import PageHeader from "../components/PageHeader";
 import { useFilteredIssues } from "../hooks/useFilteredIssues";
 import { useIssuesStore } from "../store/useIssuesStore";
-import { Issue, IssueStatus } from "../types";
+import { FilterType, Issue, IssueStatus } from "../types";
 
 export const BoardPage = () => {
   const {
@@ -19,8 +19,9 @@ export const BoardPage = () => {
   } = useIssuesStore();
   const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
   const [search, setSearch] = React.useState("");
+  const [filters, setFilters] = React.useState<FilterType>({});
 
-  const filteredIssues = useFilteredIssues(issues, {}, search);
+  const filteredIssues = useFilteredIssues(issues, filters, search);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -52,7 +53,9 @@ export const BoardPage = () => {
       <PageHeader
         search={search}
         lastSyncedAt={lastSyncedAt}
+        filters={filters}
         onSearch={setSearch}
+        onSetFilter={setFilters}
       />
       <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
         <Board
