@@ -27,11 +27,13 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           <SearchBar search={search} onSearch={onSearch} />
         </div>
       </div>
-      <div className="header">
+      <div className="header filter-wrapper">
         <p>
-          {`Last synced: ${dayjs(lastSyncedAt).format(
-            "DD MMM, YYYY hh:mm:ss A"
-          )}`}
+          {`Last synced: ${
+            lastSyncedAt
+              ? dayjs(lastSyncedAt).format("DD MMM, YYYY hh:mm:ss A")
+              : "-"
+          }`}
         </p>
         <FilterPanel filters={filters} onSetFilter={onSetFilter} />
       </div>

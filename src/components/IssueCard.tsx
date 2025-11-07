@@ -18,33 +18,28 @@ const IssueCard: React.FC<IssueCardProps> = ({
   undoUpdateIssue,
 }) => {
   const navigate = useNavigate();
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: `${issue.id}-${issue.status}`,
-      disabled: !isAdmin,
-    });
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: `${issue.id}-${issue.status}`,
+    disabled: !isAdmin,
+  });
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
       }
     : undefined;
 
-  const handleClick = () => {
-    if (!isDragging) {
-      navigate(`/issue/${issue.id}`);
-    }
-  };
-
   return (
     <div
       ref={setNodeRef}
       style={style}
       className="issue-card"
-      onClick={handleClick}
+      onClick={() => navigate(`/issue/${issue.id}`)}
     >
       <>
         <div className="flex space-between items-center">
-          <h4>{issue.title}</h4>
+          <div className="ellipsize">
+            <h4>{issue.title}</h4>
+          </div>
           {isAdmin && (
             <button
               {...attributes}
@@ -52,6 +47,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
               onClick={(e) => e.stopPropagation()}
               title="Drag to move"
               className="border-none btn"
+              aria-label="Drag handle"
             >
               :: ::
             </button>

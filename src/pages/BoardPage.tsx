@@ -2,6 +2,7 @@ import { DndContext, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import React from "react";
 import Board from "../components/Board";
 import PageHeader from "../components/PageHeader";
+import SideBar from "../components/SideBar";
 import { useFilteredIssues } from "../hooks/useFilteredIssues";
 import { usePolling } from "../hooks/usePolling";
 import { useIssuesStore } from "../store/useIssuesStore";
@@ -18,7 +19,7 @@ export const BoardPage = () => {
     lastUpdatedIssue,
     undoUpdateIssue,
   } = useIssuesStore();
-  usePolling(() => fetchIssues());
+  usePolling((isPolling) => fetchIssues(isPolling));
   const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
   const [search, setSearch] = React.useState("");
   const [filters, setFilters] = React.useState<FilterType>({});
@@ -55,15 +56,24 @@ export const BoardPage = () => {
         onSearch={setSearch}
         onSetFilter={setFilters}
       />
-      <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-        <Board
-          issues={filteredIssues}
-          activeIssue={activeIssue}
-          counter={counter}
-          lastUpdatedIssue={lastUpdatedIssue}
-          undoUpdateIssue={undoUpdateIssue}
-        />
-      </DndContext>
+      <div className="board">
+        <SideBar />
+        <div className="board-wrapper">
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+              <Board
+                issues={filteredIssues}
+                activeIssue={activeIssue}
+                counter={counter}
+                lastUpdatedIssue={lastUpdatedIssue}
+                undoUpdateIssue={undoUpdateIssue}
+              />
+            </DndContext>
+          )}
+        </div>
+      </div>
     </main>
   );
 };

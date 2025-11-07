@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { create } from "zustand";
-import { currentUser } from "../constants/currentUser";
-import { UserRoles } from "../constants/enums";
+import { isAdmin } from "../constants/currentUser";
 import { Issue, LastUpdatedIssueType, UpdateIssueDto } from "../types";
 import { mockFetchIssues, mockUpdateIssue } from "../utils/api";
 import { notify } from "../utils/helpers";
@@ -12,7 +11,7 @@ type IssueState = {
   counter: number;
   lastSyncedAt: string | null;
   lastUpdatedIssue: LastUpdatedIssueType | null;
-  fetchIssues: () => Promise<void>;
+  fetchIssues: (isPolling?: boolean) => Promise<void>;
   updateIssue: (id: string, dto: UpdateIssueDto) => void;
   undoUpdateIssue: () => void;
 };
@@ -23,8 +22,8 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
   lastSyncedAt: null,
   counter: 5,
   lastUpdatedIssue: null,
-  fetchIssues: async () => {
-    set({ isLoading: true });
+  fetchIssues: async (isPolling = false) => {
+    if (!isPolling) set({ isLoading: true });
 
     try {
       const data = await mockFetchIssues();
@@ -36,7 +35,7 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
     }
   },
   updateIssue: (id, dto) => {
-    if (currentUser.role !== UserRoles.ADMIN) {
+    if (!isAdmin) {
       notify("Only admins can update issues", { type: "error" });
       return;
     }

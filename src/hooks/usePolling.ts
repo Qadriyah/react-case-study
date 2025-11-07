@@ -1,6 +1,14 @@
 import React from "react";
 
-export const usePolling = (callback: () => Promise<void>, interval = 10000) => {
+type Option = {
+  isPolling?: boolean;
+  interval?: number;
+};
+
+export const usePolling = (
+  callback: (isPolling?: boolean) => Promise<void>,
+  options: Option = { isPolling: true, interval: 10000 }
+) => {
   const cbRef = React.useRef(callback);
   cbRef.current = callback;
 
@@ -9,7 +17,12 @@ export const usePolling = (callback: () => Promise<void>, interval = 10000) => {
       await cbRef.current();
     })();
 
-    const timerId = setInterval(async () => await cbRef.current(), interval);
-    return () => clearInterval(timerId);
-  }, [interval]);
+    if (options.isPolling) {
+      const timerId = setInterval(
+        async () => await cbRef.current(options.isPolling),
+        options.interval
+      );
+      return () => clearInterval(timerId);
+    }
+  }, [options.interval, options.isPolling]);
 };
