@@ -36,3 +36,8 @@ export type Polling = {
 };
 
 export type Theme = "light" | "dark";
+
+export type User = {
+  name: string;
+  role: string;
+};

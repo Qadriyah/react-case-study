@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { create } from "zustand";
-import { isAdmin } from "../constants/currentUser";
 import { Issue, LastUpdatedIssueType, UpdateIssueDto } from "../types";
 import { mockFetchIssues, mockUpdateIssue } from "../utils/api";
 import { notify } from "../utils/helpers";
@@ -35,11 +34,6 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
     }
   },
   updateIssue: (id, dto) => {
-    if (!isAdmin) {
-      notify("Only admins can update issues", { type: "error" });
-      return;
-    }
-
     const issueToUpdate = get().issues.find((issue) => issue.id === id);
     if (!issueToUpdate) return;
 
