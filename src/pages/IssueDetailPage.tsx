@@ -10,7 +10,7 @@ export const IssueDetailPage = () => {
   const navigate = useNavigate();
   const { issues, fetchIssues, isLoading } = useIssuesStore();
 
-  usePolling(() => fetchIssues(), { isPolling: false });
+  usePolling(fetchIssues);
   const issue = useFetchIssue(id!, issues);
   useAddRecent(issue);
 

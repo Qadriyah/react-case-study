@@ -1,13 +1,9 @@
 import React from "react";
-
-type Option = {
-  isPolling?: boolean;
-  interval?: number;
-};
+import { Polling } from "../types";
 
 export const usePolling = (
   callback: (isPolling?: boolean) => Promise<void>,
-  options: Option = { isPolling: true, interval: 10000 }
+  options: Polling = { isPolling: false, interval: 10000 }
 ) => {
   const cbRef = React.useRef(callback);
   cbRef.current = callback;
@@ -20,7 +16,7 @@ export const usePolling = (
     if (options.isPolling) {
       const timerId = setInterval(
         async () => await cbRef.current(options.isPolling),
-        options.interval
+        options.interval as number
       );
       return () => clearInterval(timerId);
     }

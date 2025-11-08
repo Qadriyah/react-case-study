@@ -5,6 +5,7 @@ import PageHeader from "../components/PageHeader";
 import SideBar from "../components/SideBar";
 import { useFilteredIssues } from "../hooks/useFilteredIssues";
 import { usePolling } from "../hooks/usePolling";
+import { usePollingSettings } from "../hooks/usePollingSettings";
 import { useIssuesStore } from "../store/useIssuesStore";
 import { FilterType, Issue, IssueStatus } from "../types";
 
@@ -19,7 +20,8 @@ export const BoardPage = () => {
     lastUpdatedIssue,
     undoUpdateIssue,
   } = useIssuesStore();
-  usePolling((isPolling) => fetchIssues(isPolling));
+  const { settings } = usePollingSettings();
+  usePolling(fetchIssues, settings);
   const [activeIssue, setActiveIssue] = React.useState<Issue | null>(null);
   const [search, setSearch] = React.useState("");
   const [filters, setFilters] = React.useState<FilterType>({});

@@ -29,3 +29,8 @@ export type FilterType = {
   assignee?: string;
   severity?: number | string;
 };
+
+export type Polling = {
+  isPolling: boolean;
+  interval: number | string;
+};
