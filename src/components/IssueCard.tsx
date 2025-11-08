@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { isAdmin } from "../constants/currentUser";
 import { Issue, LastUpdatedIssueType } from "../types";
+import DragIcon from "./DragIcon";
 
 type IssueCardProps = {
   issue: Issue;
@@ -46,10 +47,10 @@ const IssueCard: React.FC<IssueCardProps> = ({
               {...listeners}
               onClick={(e) => e.stopPropagation()}
               title="Drag to move"
-              className="border-none btn"
+              className="drag-btn"
               aria-label="Drag handle"
             >
-              :: ::
+              <DragIcon />
             </button>
           )}
         </div>
