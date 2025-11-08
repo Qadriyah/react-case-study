@@ -1,7 +1,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { isAdmin } from "../constants/currentUser";
+import { useUserStore } from "../store/useUserStore";
 import { Issue, LastUpdatedIssueType } from "../types";
 import DragIcon from "./DragIcon";
 
@@ -19,6 +19,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
   undoUpdateIssue,
 }) => {
   const navigate = useNavigate();
+  const { isAdmin } = useUserStore();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `${issue.id}-${issue.status}`,
     disabled: !isAdmin,

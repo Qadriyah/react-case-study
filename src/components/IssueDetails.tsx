@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import dayjs from "dayjs";
 import React from "react";
-import { isAdmin } from "../constants/currentUser";
 import { useIssuesStore } from "../store/useIssuesStore";
+import { useUserStore } from "../store/useUserStore";
 import { Issue } from "../types";
 
 type IssueDetailsProp = {
@@ -11,6 +11,7 @@ type IssueDetailsProp = {
 
 const IssueDetails: React.FC<IssueDetailsProp> = ({ issue }) => {
   const { updateIssue } = useIssuesStore();
+  const { isAdmin } = useUserStore();
 
   return (
     <div className="card">
