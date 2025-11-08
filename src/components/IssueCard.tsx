@@ -47,7 +47,7 @@ const IssueCard: React.FC<IssueCardProps> = ({
               {...listeners}
               onClick={(e) => e.stopPropagation()}
               title="Drag to move"
-              className="drag-btn"
+              className="clear-btn"
               aria-label="Drag handle"
             >
               <DragIcon />
@@ -60,7 +60,14 @@ const IssueCard: React.FC<IssueCardProps> = ({
       </>
 
       {lastUpdatedIssue && lastUpdatedIssue.id === issue.id && isAdmin && (
-        <button onClick={undoUpdateIssue}>{`Undo in ${counter}`}</button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            undoUpdateIssue && undoUpdateIssue();
+          }}
+        >
+          {`Undo in ${counter}`}
+        </button>
       )}
     </div>
   );
