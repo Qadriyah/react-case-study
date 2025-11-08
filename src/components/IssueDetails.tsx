@@ -13,7 +13,7 @@ const IssueDetails: React.FC<IssueDetailsProp> = ({ issue }) => {
   const { updateIssue } = useIssuesStore();
 
   return (
-    <div>
+    <div className="card">
       <div className="flex space-between items-center">
         <h1>{issue.title}</h1>
         {isAdmin && issue.status !== "Done" && (

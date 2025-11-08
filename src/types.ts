@@ -34,3 +34,5 @@ export type Polling = {
   isPolling: boolean;
   interval: number | string;
 };
+
+export type Theme = "light" | "dark";

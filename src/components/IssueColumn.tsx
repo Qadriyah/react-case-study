@@ -20,7 +20,7 @@ const IssueColumn: React.FC<IssueColumnProps> = ({
 }) => {
   const { setNodeRef, isOver } = useDroppable({ id: title });
   const style = {
-    backgroundColor: isOver ? "lightblue" : "#f1f2f4",
+    backgroundColor: isOver ? "lightblue" : "var(--background)",
   };
 
   return (
