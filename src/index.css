@@ -50,13 +50,10 @@ button {
   align-items: center;
 }
 
-.border-none {
+.drag-btn {
   border: none;
-}
-
-.btn {
   color: #000;
-  rotate: 90deg;
+  padding: 0;
 }
 
 .board {
