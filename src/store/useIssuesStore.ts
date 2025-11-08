@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import { create } from "zustand";
+import { currentUser } from "../constants/currentUser";
+import { UserRoles } from "../constants/enums";
 import { Issue, LastUpdatedIssueType, UpdateIssueDto } from "../types";
 import { mockFetchIssues, mockUpdateIssue } from "../utils/api";
 import { notify } from "../utils/helpers";
@@ -34,6 +36,11 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
     }
   },
   updateIssue: (id, dto) => {
+    if (currentUser.role !== UserRoles.ADMIN) {
+      notify("Only admins are allowed to update issues", { type: "info" });
+      return;
+    }
+
     const issueToUpdate = get().issues.find((issue) => issue.id === id);
     if (!issueToUpdate) return;
 
