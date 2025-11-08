@@ -1,24 +1,18 @@
 import dayjs from "dayjs";
 import { create } from "zustand";
-import { currentUser } from "../constants/currentUser";
-import { UserRoles } from "../constants/enums";
-import { Issue, IssueStatus } from "../types";
+import { isAdmin } from "../constants/currentUser";
+import { Issue, LastUpdatedIssueType, UpdateIssueDto } from "../types";
 import { mockFetchIssues, mockUpdateIssue } from "../utils/api";
 import { notify } from "../utils/helpers";
-
-type LastUpdatedIssueType = {
-  id: string;
-  issue: Issue | null;
-  timerId: ReturnType<typeof setTimeout> | null;
-};
 
 type IssueState = {
   issues: Issue[];
   isLoading: boolean;
+  counter: number;
   lastSyncedAt: string | null;
   lastUpdatedIssue: LastUpdatedIssueType | null;
-  fetchIssues: () => Promise<void>;
-  updateIssue: (id: string, status: IssueStatus) => void;
+  fetchIssues: (isPolling?: boolean) => Promise<void>;
+  updateIssue: (id: string, dto: UpdateIssueDto) => void;
   undoUpdateIssue: () => void;
 };
 
@@ -26,35 +20,37 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
   issues: [],
   isLoading: false,
   lastSyncedAt: null,
+  counter: 5,
   lastUpdatedIssue: null,
-  fetchIssues: async () => {
-    set({ isLoading: true });
+  fetchIssues: async (isPolling = false) => {
+    if (!isPolling) set({ isLoading: true });
 
     try {
       const data = await mockFetchIssues();
       set({ issues: data, lastSyncedAt: dayjs().toISOString() });
     } catch (err) {
-      console.log("Failed to fetch issues: ", err);
+      notify("Failed to fetch issues", { type: "error" });
     } finally {
       set({ isLoading: false });
     }
   },
-  updateIssue: (id, status) => {
-    if (currentUser.role !== UserRoles.ADMIN) {
-      notify("Only admins can move issues.");
+  updateIssue: (id, dto) => {
+    if (!isAdmin) {
+      notify("Only admins can update issues", { type: "error" });
       return;
     }
 
     const issueToUpdate = get().issues.find((issue) => issue.id === id);
     if (!issueToUpdate) return;
 
-    const updatedIssue = { ...issueToUpdate, status };
+    const updatedIssue = { ...issueToUpdate, ...dto };
     const updatedIssues = get().issues.map((issue) =>
       issue.id === id ? updatedIssue : issue
     );
 
     set({
       issues: updatedIssues,
+      counter: 5,
       lastUpdatedIssue: {
         id,
         issue: issueToUpdate,
@@ -62,18 +58,36 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
       },
     });
 
+    const intervalId = setInterval(() => {
+      const current = get().counter || 0;
+      if (current <= 0) {
+        clearInterval(intervalId);
+        set({ counter: 0 });
+      } else {
+        set({ counter: current - 1 });
+      }
+    }, 1000);
+
     const timerId = setTimeout(async () => {
+      let message = "Issue has been updated successfully";
+      let messageType: "success" | "error" = "success";
+      clearInterval(intervalId);
+      set({ counter: 0 });
+
       try {
-        await mockUpdateIssue(id, { status });
+        await mockUpdateIssue(id, dto);
         set({ lastUpdatedIssue: null });
       } catch (err) {
-        notify("Failed to move issue. Reverting changes.");
+        message = "Failed to update issue. Reverting changes.";
+        messageType = "error";
         set({
           issues: get().issues.map((issue) =>
             issue.id === id ? issueToUpdate : issue
           ),
           lastUpdatedIssue: null,
         });
+      } finally {
+        notify(message, { type: messageType });
       }
     }, 5000);
 
@@ -101,6 +115,9 @@ export const useIssuesStore = create<IssueState>((set, get) => ({
           : issue
       ),
       lastUpdatedIssue: null,
+      counter: 5,
     });
+
+    notify("Changes reverted successfully", { type: "info" });
   },
 }));
