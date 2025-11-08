@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export const Navigation = () => (
-  <nav style={{ padding: "1rem", background: "#eee" }}>
+  <nav style={{ padding: "1rem" }}>
     <Link to="/board" style={{ marginRight: "1rem" }}>
       Board
     </Link>

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { toast, ToastOptions } from "react-toastify";
-import { Issue } from "../types";
+import { Issue, Polling } from "../types";
 
 export const notify = (message: string, options?: ToastOptions) =>
   toast(message, options);
@@ -24,9 +24,20 @@ export const addRecentIssue = (issue: Issue): void => {
   localStorage.setItem("recent", JSON.stringify(updated));
 };
 
-export function getRecentIssues(): Issue[] {
+export const getRecentIssues = (): Issue[] => {
   let data = localStorage.getItem("recent");
   if (!data) data = "[]";
 
   return JSON.parse(data);
-}
+};
+
+export const setPollingSettings = (settings: Polling) => {
+  localStorage.setItem("polling", JSON.stringify(settings));
+};
+
+export const getPollingSettings = () => {
+  let data = localStorage.getItem("polling");
+  if (!data) data = "{}";
+
+  return JSON.parse(data);
+};
