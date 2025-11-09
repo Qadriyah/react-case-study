@@ -4,15 +4,14 @@ import { Issue, User } from "../types";
 
 jest.useFakeTimers();
 
-const mockApi = {
-  updateIssueApi: jest.fn().mockResolvedValue(true),
-};
-
 const clearSpy = jest.spyOn(global, "clearTimeout");
+const mockApi = {
+  mockUpdateIssue: jest.fn().mockResolvedValue(true),
+};
 
 jest.mock("../utils/api.ts", () => ({
   mockFetchIssues: jest.fn().mockResolvedValue([]),
-  mockUpdateIssue: jest.fn(() => mockApi.updateIssueApi()),
+  mockUpdateIssue: jest.fn(() => mockApi.mockUpdateIssue()),
 }));
 
 const mockIssues: Issue[] = [
@@ -48,6 +47,10 @@ describe("useIssuesStore", () => {
     const updated = useIssuesStore.getState().issues[0];
     expect(updated.status).toBe("In Progress");
     expect(useIssuesStore.getState().lastUpdatedIssue?.id).toBe("1");
+    expect(
+      useIssuesStore.getState().issues.filter((el) => el.status === "Backlog")
+        .length
+    ).toBe(0);
   });
 
   it("should undo change before save", () => {
@@ -70,7 +73,7 @@ describe("useIssuesStore", () => {
     undoUpdateIssue();
     jest.advanceTimersByTime(5000);
 
-    expect(mockApi.updateIssueApi).not.toHaveBeenCalled();
+    expect(mockApi.mockUpdateIssue).not.toHaveBeenCalled();
     expect(clearSpy).toHaveBeenCalledTimes(1);
     expect(useIssuesStore.getState().lastUpdatedIssue).toBeNull();
   });
