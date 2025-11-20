@@ -88,9 +88,3 @@ Build a **React application** that lets users:
 npm install
 npm start
 ```
-
-You’re good to go! Let us know when it’s ready for review.
-
----
-
-Good luck — and have fun building!
