@@ -1,13 +1,3 @@
-# 🧠 Issue Board – React Engineering Assessment
-
-Welcome! This is a React case study designed to assess your skills in frontend architecture, state management, component design, and algorithmic
-thinking.
-
-You’ll build a **Kanban-style issue board** with interactive functionality, sorting logic, and user access control — similar to a simplified Jira or
-GitHub Projects board.
-
----
-
 ## 🎯 Objective
 
 Build a **React application** that lets users:
@@ -83,22 +73,7 @@ Build a **React application** that lets users:
 
 ---
 
-## ⚙️ Starter Code
-
-This repo includes:
-
-- All page routes wired with `React Router`
-- Sample issues in `src/data/issues.json`
-- Mock API with delay + simulated error in `src/utils/api.ts`
-- User context in `src/constants/currentUser.ts`
-- Navigation bar
-- TypeScript types in `src/types.ts`
-
-You're expected to build the real functionality and logic on top of this foundation.
-
----
-
-## ✨ Bonus (If You Have Time)
+## ✨ Bonus
 
 - Pagination or virtual scroll
 - Custom hook for polling
@@ -106,58 +81,6 @@ You're expected to build the real functionality and logic on top of this foundat
 - Unit test for sorting algorithm or update logic
 
 ---
-
-## 🧪 Evaluation Criteria
-
-| Area              | What We’re Looking For                                    |
-|-------------------|-----------------------------------------------------------|
-| Code Quality      | Clear, idiomatic React code                               |
-| Component Design  | Reusable, maintainable architecture                       |
-| Algorithmic Logic | Priority score, sort stability, undo rollback             |
-| State Management  | Clean handling of async and optimistic updates            |
-| Access Control    | Role-based UI behavior                                    |
-| UX Decisions      | Error handling, undo feedback, loading states             |
-| Performance       | Avoiding unnecessary re-renders, memoization where needed |
-| Testing (Bonus)   | Tests for critical logic                                  |
-
----
-
-## ⏱️ Time Limit
-
-This challenge is designed for **~90 minutes**. If you need a bit more time for polish, that’s okay — just let us know.
-
----
-
-## 🔒 Dependency Rules
-
-You may only use the dependencies already included in the project.
-
-> ❗ No additional libraries or external packages are allowed — **except** for state management libraries such as:
-> - [Zustand](https://github.com/pmndrs/zustand)
-> - [Jotai](https://github.com/pmndrs/jotai)
-> - [Recoil](https://recoiljs.org/)
-> - or similar minimal state libraries
-
-Please do **not** add other UI kits, form libraries, animation frameworks, etc.
-
-The goal is to evaluate your architecture, state design, and React fundamentals — not your ability to wire up third-party tools.
-
-
----
-
-## 🔒 Dependency Rules
-
-You may only use the dependencies already included in the project.
-
-> ❗ No additional libraries or external packages are allowed — **except** for state management libraries such as:
-> - [Zustand](https://github.com/pmndrs/zustand)
-> - [Jotai](https://github.com/pmndrs/jotai)
-> - [Recoil](https://recoiljs.org/)
-> - or similar minimal state libraries
-
-Please do **not** add other UI kits, form libraries, animation frameworks, etc.
-
-The goal is to evaluate your architecture, state design, and React fundamentals — not your ability to wire up third-party tools.
 
 ## 🚀 Getting Started
 
